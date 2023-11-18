@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    .Container { 
+        position: relative; 
+    } 
+
+    .position { 
+        position: absolute; 
+        top: 570px;
+        right: 1650px; 
+        width: 150px;
+        height: auto;
+        opacity: 0;
+        transition: all 1s;
+    }
+
+    .player{
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100px;
+      height: auto;
+      transition: opacity 1s;
+    }
+
+    .PlayerContainer{
+        position: relative;
+        float:left;
+    }
+</style>
+<body>
+<div class="Container">
+    <img src="FS/Board.png" alt="Board">
+    <img src="Players/player-B.png" alt="player a" class="player" id="p_A1">
+    <img src="Players/player-B.png" alt="player a" class="player" id="p_A2">
+    <img src="Players/player-B.png" alt="player a" class="player" id="p_A3">
+    <img src="Players/player-B.png" alt="player a" class="player" id="p_A4">
+    <img src="Players/player-B.png" alt="player a" class="player" id="p_A5">
+    <img src="Players/player-B.png" alt="player a" class="player" id="p_A6">
+    <img src="Players/player-B.png" alt="player a" class="player" id="p_A7">
+    <img src="Players/player-B.png" alt="player a" class="player" id="p_A8">
+    <img src="Players/player-B.png" alt="player a" class="player" id="p_A9">
+    <img src="Players/player-B.png" alt="player a" class="player" id="p_A10">
+
+
+    <img src="Players/player-B.png" alt="player a" class="position" id="goalkeep_A">
+    <img src="Players/player-B.png" alt="player a" class="position" id="topleft_A">
+    <img src="Players/player-B.png" alt="player a" class="position" id="topright_A">
+    <img src="Players/player-B.png" alt="player a" class="position" id="bottomleft_A">
+    <img src="Players/player-B.png" alt="player a" class="position" id="bottomright_A">
+
+    <img src="Players/player-A.png" alt="player a" class="position" id="goalkeep_B">
+    <img src="Players/player-A.png" alt="player a" class="position" id="topleft_B">
+    <img src="Players/player-A.png" alt="player a" class="position" id="topright_B">
+    <img src="Players/player-A.png" alt="player a" class="position" id="bottomleft_B">
+    <img src="Players/player-A.png" alt="player a" class="position" id="bottomright_B">
+</div>
+
+<script type="module">
+    import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
+    const socket = io();
+
+    
+
+    socket.on('send_data', (data) =>{
+        updateBoard(data.side_A, data.side_B, data.players);
+    });
+
+    function updateBoard(side_A, side_B, players) {
+        document.querySelectorAll('.position').forEach((position, index) => {
+            if (index < 5){
+                //update Side A
+                updatePosition(position, side_A[index]);
+            }
+            else{
+                updatePosition(position, side_B[index % 5]);
+            }
+        });
+
+        document.querySelectorAll('.player').forEach((player, index) => {
+            setPosition(player, 1400-index*120, 0);
+            player.src = players[index].image_path;
+            player.style.opacity = players[index].picked ? 0.3 : 1;
+        });
+    };
+
+    function updatePosition(position, newPosition){
+        position.style.right = `${newPosition.right}px`;
+        position.style.top =`${newPosition.top}px`;
+        position.style.width =`${newPosition.width}px`;
+        position.style.opacity = newPosition.picked ? 1 : 0;
+        position.src = newPosition.img;
+    }
+
+    function setPosition(player, x, y){
+        player.style.right = `${x}px`;
+        player.style.top = `${y}px`;
+    }
+    
+
+    socket.on('make_player_visible', (position, player, streamer_id) =>{
+        console.log("letsgoi");
+        document.getElementById(`${position}_${streamer_id}`).src = player.image_path;
+        document.getElementById(`${position}_${streamer_id}`).style.opacity = 1; 
+        console.log(`${position}_${streamer_id}`);
+
+    });
+
+    
+</script>
+
+</body>
+</html>

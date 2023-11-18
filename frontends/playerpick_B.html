@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PlayerPick A</title>
+  <style>
+    .player{
+      width: 150px;
+      height: auto;
+    }
+    .wrapper{
+      position: relative;
+    }
+    .wrapper > div{
+      float: left;
+      position: relative;
+    }
+    .pickButton{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+    }
+    .dropDownMenu{
+      position: absolute;
+      top: 70%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+    }
+
+    .text{
+      align-items: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: -50px;
+      margin-left: -50px;
+
+      font-size: 50px;
+      padding-top: 50px;
+    }
+
+
+  </style>
+</head>
+
+    <script type="module">
+    
+    </script>
+
+
+
+<body>
+  <div class="wrapper" id="wrapper">
+    <div id = "Spieler 1">
+      <img src="Players/player-B.png" alt="player a" class="player" id="p_A1">
+    </div>
+  
+    <div id = "Spieler 2">
+      <img src="Players/player-B.png" alt="player a" class="player" id="p_A2">
+    </div>
+    
+    <div id = "Spieler 3">
+      <img src="Players/player-B.png" alt="player a" class="player" id="p_A3">
+    </div>
+    <div id = "Spieler 4">
+      <img src="Players/player-B.png" alt="player a" class="player" id="p_A4">
+    </div>
+    <div id = "Spieler 5">
+      <img src="Players/player-B.png" alt="player a" class="player" id="p_A5">
+    </div>
+
+
+
+    <div id = "Spieler 6">
+      <img src="Players/player-A.png" alt="player a" class="player" id="p_B1">
+    </div >
+    <div id = "Spieler 7">
+      <img src="Players/player-A.png" alt="player a" class="player" id="p_B2">
+    </div>
+    <div id = "Spieler 8">
+      <img src="Players/player-A.png" alt="player a" class="player" id="p_B3">
+    </div>
+    <div id = "Spieler 9">
+      <img src="Players/player-A.png" alt="player a" class="player" id="p_B4">
+    </div>
+    <div id = "Spieler 10">
+      <img src="Players/player-A.png" alt="player a" class="player" id="p_B5">
+    </div>
+
+  </div>
+<div style="clear:both;"></div>
+<div id="turnTextField" class="text"></div>
+
+<script type="module">
+  import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
+  const socket = io();
+
+
+  class Player{
+  constructor(name, img_path){
+    this.name = name;
+    this.image_path = img_path;
+    this.picked = false;
+  };
+};
+
+  var players = [
+  new Player('Spieler 1', 'Players/player-A.png'),
+  new Player('Spieler 2', 'Players/player-A.png'),
+  new Player('Spieler 3', 'Players/player-A.png'),
+  new Player('Spieler 4', 'Players/player-A.png'),
+  new Player('Spieler 5', 'Players/player-A.png'),
+  new Player('Spieler 6', 'Players/player-B.png'),
+  new Player('Spieler 7', 'Players/player-B.png'),
+  new Player('Spieler 8', 'Players/player-B.png'),
+  new Player('Spieler 9', 'Players/player-B.png'),
+  new Player('Spieler 10', 'Players/player-B.png'),
+  ];
+
+  
+
+
+  socket.on('send_data', data => {
+    document.querySelectorAll('.player').forEach((player, index) =>{
+      players[index] = data.players[index];
+      updatePlayer(player, players[index]);
+      updateText(data);
+      //updateDropDownList(data);
+    });
+
+  });
+
+  function updatePlayer(player, newPlayer){
+      player.src = newPlayer.image_path;
+      player.id = newPlayer.name;
+
+      if (newPlayer.picked){
+        player.style.opacity = 0.3;
+        document.getElementById(`button_pick_${newPlayer.name}`).style.visibility = "hidden";
+        document.getElementById(`select_${newPlayer.name}`).style.visibility = "hidden";
+
+        if (newPlayer.pickedBy == streamer_id){
+          document.getElementById(`button_redo_${newPlayer.name}`).style.visibility = "visible";
+        }
+      }
+      else{
+        player.style.opacity = 1;
+        document.getElementById(`button_pick_${newPlayer.name}`).style.visibility = "visible";
+        document.getElementById(`select_${newPlayer.name}`).style.visibility = "visible";
+        document.getElementById(`button_redo_${newPlayer.name}`).style.visibility = "hidden";
+        
+      }
+      
+    };
+
+    function updateText(data){
+      var text = document.querySelector('.text');
+      if(data.A_open && !data.B_open && streamer_id == 'A'){
+        text.innerHTML = 'YOUR TURN!';
+      }else
+      if(!data.A_open && data.B_open && streamer_id == 'B'){
+        text.innerHTML = 'YOUR TURN!';
+      }
+      else{
+        text.innerHTML = '';
+      }
+
+    };
+
+
+    function updateDropDownList(data) {
+      document.querySelectorAll('.dropDownMenu').forEach(menu =>{
+        while (menu.options.length > 0) {
+          menu.remove(0);
+        }
+        data.side_B.forEach((position, index) => {
+          var opt = document.createElement('option');
+          //opt.value = option;
+          opt.value = index;
+          opt.text = position.position.toString();
+          opt.id = position.position.toString();
+          menu.appendChild(opt);
+          if (position.picked){
+            menu.remove(index);
+          }
+        
+      });
+
+
+      });
+    }
+
+  const streamer_id = "B";
+
+  function addDropDownMenus(){
+    document.querySelectorAll('.wrapper > div').forEach((div, index) => {
+
+    var select = document.createElement('select');
+    select.id = `select_${players[index].name}`;
+    select.classList.add("dropDownMenu");
+    var options = ['goalkeep', 'topleft', 'topright', 'bottomleft', 'bottomright'];
+
+    options.forEach((option, index) => {
+      var opt = document.createElement('option');
+      //opt.value = option;
+      opt.value = index;
+      opt.text = option.toString();
+      opt.id = option.toString();
+      select.appendChild(opt);
+    });
+
+    var button_pick = document.createElement('button');
+    var button_redo = document.createElement('button');
+    button_pick.id = `button_pick_${players[index].name}`;
+    button_redo.id = `button_redo_${players[index].name}`;
+
+    button_pick.addEventListener('click', () => {
+      console.log(`player: ${index}`);
+      socket.emit('pick_player', index, select.value, streamer_id);
+    });
+
+    button_redo.addEventListener('click', () => {
+      socket.emit('undo', index, streamer_id);
+    });
+
+
+
+    button_pick.classList.add('pickButton');
+    button_pick.innerHTML="PICK";
+
+    button_redo.classList.add('pickButton');
+    button_redo.innerHTML="REDO";
+    button_redo.style.visibility = 'hidden';
+    div.appendChild(button_redo);
+    div.appendChild(button_pick);
+    div.appendChild(select);
+ });
+  };
+
+
+  
+
+
+  addDropDownMenus();
+
+
+ /*  socket.on('removeSelectOption', (option) => {
+    console.log('hello');
+    document.querySelectorAll('.dropDownMenu').forEach(dropDownMenu =>{
+      dropDownMenu.removeChild(option);
+    });
+  }); */
+
+  
+ 
+</script>
+</body>
+</html>
