@@ -56,39 +56,39 @@
 <body>
   <div class="wrapper" id="wrapper">
     <div id = "Spieler 1">
-      <img src="Players/player-B.png" alt="player a" class="player" id="p_A1">
+      <img src="Players/player-B.png" alt="player a" class="player" id="p_1">
     </div>
   
     <div id = "Spieler 2">
-      <img src="Players/player-B.png" alt="player a" class="player" id="p_A2">
+      <img src="Players/player-B.png" alt="player a" class="player" id="p_2">
     </div>
     
     <div id = "Spieler 3">
-      <img src="Players/player-B.png" alt="player a" class="player" id="p_A3">
+      <img src="Players/player-B.png" alt="player a" class="player" id="p_3">
     </div>
     <div id = "Spieler 4">
-      <img src="Players/player-B.png" alt="player a" class="player" id="p_A4">
+      <img src="Players/player-B.png" alt="player a" class="player" id="p_4">
     </div>
     <div id = "Spieler 5">
-      <img src="Players/player-B.png" alt="player a" class="player" id="p_A5">
+      <img src="Players/player-B.png" alt="player a" class="player" id="p_5">
     </div>
 
 
 
     <div id = "Spieler 6">
-      <img src="Players/player-A.png" alt="player a" class="player" id="p_B1">
+      <img src="Players/player-A.png" alt="player a" class="player" id="p_6">
     </div >
     <div id = "Spieler 7">
-      <img src="Players/player-A.png" alt="player a" class="player" id="p_B2">
+      <img src="Players/player-A.png" alt="player a" class="player" id="p_7">
     </div>
     <div id = "Spieler 8">
-      <img src="Players/player-A.png" alt="player a" class="player" id="p_B3">
+      <img src="Players/player-A.png" alt="player a" class="player" id="p_8">
     </div>
     <div id = "Spieler 9">
-      <img src="Players/player-A.png" alt="player a" class="player" id="p_B4">
+      <img src="Players/player-A.png" alt="player a" class="player" id="p_9">
     </div>
     <div id = "Spieler 10">
-      <img src="Players/player-A.png" alt="player a" class="player" id="p_B5">
+      <img src="Players/player-A.png" alt="player a" class="player" id="p_10">
     </div>
 
   </div>
@@ -100,62 +100,129 @@
   const socket = io();
 
 
-  class Player{
-  constructor(name, img_path){
-    this.name = name;
-    this.image_path = img_path;
-    this.picked = false;
-  };
-};
 
-  var players = [
-  new Player('Spieler 1', 'Players/player-A.png'),
-  new Player('Spieler 2', 'Players/player-A.png'),
-  new Player('Spieler 3', 'Players/player-A.png'),
-  new Player('Spieler 4', 'Players/player-A.png'),
-  new Player('Spieler 5', 'Players/player-A.png'),
-  new Player('Spieler 6', 'Players/player-B.png'),
-  new Player('Spieler 7', 'Players/player-B.png'),
-  new Player('Spieler 8', 'Players/player-B.png'),
-  new Player('Spieler 9', 'Players/player-B.png'),
-  new Player('Spieler 10', 'Players/player-B.png'),
-  ];
 
-  
+document.querySelectorAll('.wrapper > div').forEach((div, index) => {
+
+const player_id = div.querySelector('.player').id;
+var select = document.createElement('select');
+select.id = `select_${player_id}`;
+select.classList.add("dropDownMenu");
+var options = ['goalkeep', 'topleft', 'topright', 'bottomleft', 'bottomright'];
+
+options.forEach((option, index) => {
+  var opt = document.createElement('option');
+  //opt.value = option;
+  opt.value = index;
+  opt.text = option.toString();
+  opt.id = option.toString();
+  select.appendChild(opt);
+});
+
+var button_pick = document.createElement('button');
+var button_redo = document.createElement('button');
+button_pick.id = `button_pick_${player_id}`;
+button_redo.id = `button_redo_${player_id}`;
+
+button_pick.addEventListener('click', () => {
+  socket.emit('pick_player', index, select.value, streamer_id);
+});
+
+button_redo.addEventListener('click', () => {
+  socket.emit('undo', index, streamer_id);
+});
+
+
+
+button_pick.classList.add('pickButton');
+button_pick.innerHTML="PICK";
+
+button_redo.classList.add('pickButton');
+button_redo.innerHTML="REDO";
+button_redo.style.visibility = 'hidden';
+div.appendChild(button_redo);
+div.appendChild(button_pick);
+div.appendChild(select);
+});
+
+const streamer_id = "A";
 
 
   socket.on('send_data', data => {
+    
+    const picked_positons = get_picked_positions(data);
     document.querySelectorAll('.player').forEach((player, index) =>{
-      players[index] = data.players[index];
-      updatePlayer(player, players[index]);
+      updatePlayer(player, data, index, picked_positons);
       updateText(data);
       //updateDropDownList(data);
     });
 
   });
 
-  function updatePlayer(player, newPlayer){
+  function updatePlayer(player, data, index, picked_positions){
+      const newPlayer = data.players[index];
       player.src = newPlayer.image_path;
-      player.id = newPlayer.name;
+
+      const controls = {
+        pickButton: document.getElementById(`button_pick_${player.id}`),
+        dropDownMenu: document.getElementById(`select_${player.id}`),
+        redoButton: document.getElementById(`button_redo_${player.id}`)
+      };
+
+    	updateDropDownList();
+
+      
 
       if (newPlayer.picked){
         player.style.opacity = 0.3;
-        document.getElementById(`button_pick_${newPlayer.name}`).style.visibility = "hidden";
-        document.getElementById(`select_${newPlayer.name}`).style.visibility = "hidden";
-
+        controls.pickButton.style.visibility = "hidden";
+        controls.dropDownMenu.style.visibility = "hidden";
         if (newPlayer.pickedBy == streamer_id){
-          document.getElementById(`button_redo_${newPlayer.name}`).style.visibility = "visible";
+          controls.redoButton.style.visibility = "visible";
         }
       }
       else{
         player.style.opacity = 1;
-        document.getElementById(`button_pick_${newPlayer.name}`).style.visibility = "visible";
-        document.getElementById(`select_${newPlayer.name}`).style.visibility = "visible";
-        document.getElementById(`button_redo_${newPlayer.name}`).style.visibility = "hidden";
+        controls.pickButton.style.visibility = "visible";
+        controls.dropDownMenu.style.visibility = "visible";
+        controls.redoButton.style.visibility = "hidden";
+      }
+
+
+      
+      function updateDropDownList(){
+        let options = data.options;
+          while (controls.dropDownMenu.options.length > 0) {
+          controls.dropDownMenu.remove(0);
+        }
+
+        data.options.forEach((option, index) => {
+        if (!picked_positions.includes(index)){
+          var opt = document.createElement('option');
+          opt.value = index;
+          opt.text = option;
+          controls.dropDownMenu.appendChild(opt);
+        }
         
+      });
       }
       
+      
+      
+      
+      
     };
+
+    function get_picked_positions(data){
+        let picked_positions = [];
+        data.positions.forEach(position =>{
+            if (position.picked){
+              picked_positions.push(position.position);
+            }
+        });
+
+        return picked_positions;
+      }
 
     function updateText(data){
       var text = document.querySelector('.text');
@@ -172,80 +239,10 @@
     };
 
 
-    function updateDropDownList(data) {
-      document.querySelectorAll('.dropDownMenu').forEach(menu =>{
-        while (menu.options.length > 0) {
-          menu.remove(0);
-        }
-        data.side_A.forEach((position, index) => {
-          var opt = document.createElement('option');
-          //opt.value = option;
-          opt.value = index;
-          opt.text = position.position.toString();
-          opt.id = position.position.toString();
-          menu.appendChild(opt);
-          if (position.picked){
-            menu.remove(index);
-          }
-        
-      });
-
-
-      });
-    }
-
-  const streamer_id = "A";
-
-  function addDropDownMenus(){
-    document.querySelectorAll('.wrapper > div').forEach((div, index) => {
-
-    var select = document.createElement('select');
-    select.id = `select_${players[index].name}`;
-    select.classList.add("dropDownMenu");
-    var options = ['goalkeep', 'topleft', 'topright', 'bottomleft', 'bottomright'];
-
-    options.forEach((option, index) => {
-      var opt = document.createElement('option');
-      //opt.value = option;
-      opt.value = index;
-      opt.text = option.toString();
-      opt.id = option.toString();
-      select.appendChild(opt);
-    });
-
-    var button_pick = document.createElement('button');
-    var button_redo = document.createElement('button');
-    button_pick.id = `button_pick_${players[index].name}`;
-    button_redo.id = `button_redo_${players[index].name}`;
-
-    button_pick.addEventListener('click', () => {
-      console.log(`player: ${index}`);
-      socket.emit('pick_player', index, select.value, streamer_id);
-    });
-
-    button_redo.addEventListener('click', () => {
-      socket.emit('undo', index, streamer_id);
-    });
-
-
-
-    button_pick.classList.add('pickButton');
-    button_pick.innerHTML="PICK";
-
-    button_redo.classList.add('pickButton');
-    button_redo.innerHTML="REDO";
-    button_redo.style.visibility = 'hidden';
-    div.appendChild(button_redo);
-    div.appendChild(button_pick);
-    div.appendChild(select);
- });
-  };
-
 
   
 
 
-  addDropDownMenus();
 
 
  /*  socket.on('removeSelectOption', (option) => {
