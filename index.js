@@ -18,11 +18,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("pick_player", (player, position, streamer_id) => {
-    if (streamer_id == "A" && data.A_open) {
-      pickPlayer(position, player, streamer_id);
-    }
-
-    if (streamer_id == "B" && data.B_open) {
+    if (streamer_id == data.turnplayer || data.picked_positions.length == 0) {
       pickPlayer(position, player, streamer_id);
     }
   });
@@ -41,25 +37,20 @@ io.on("connection", (socket) => {
 
       data.picked_positions.push(position.position);
 
-      data.A_open = streamer_id == "A" ? false : true;
-      data.B_open = streamer_id == "B" ? false : true;
+      data.turnplayer = streamer_id == "A" ? "B" : "A";
 
       sendData();
     }
   }
 
   socket.on("undo", (index, streamer_id) => {
-    if (
-      (!data.A_open && streamer_id == "A") ||
-      (!data.B_open && streamer_id == "B")
-    ) {
+    if (streamer_id != data.turnplayer) {
       var player = data.players[index];
       var position = data.positions[player.position];
       player.picked = false;
       position.picked = false;
       player.position = null;
-      data.A_open = streamer_id == "A" ? true : false;
-      data.B_open = streamer_id == "B" ? true : false;
+      data.turnplayer = data.turnplayer == "A" ? "B" : "A";
       position.moveToRandomLocation();
       //remove position from picked positions
       data.picked_positions = data.picked_positions.filter(
@@ -68,6 +59,11 @@ io.on("connection", (socket) => {
 
       sendData();
     }
+  });
+
+  socket.on("reset", () => {
+    initialize();
+    sendData();
   });
 });
 
@@ -114,44 +110,51 @@ class Position {
   }
 }
 
-var data = {
-  positions: [
-    new Position(0, 1650, 570),
-    new Position(1, 1400, 450),
-    new Position(2, 1100, 450),
-    new Position(3, 1400, 800),
-    new Position(4, 1100, 800),
-    new Position(5, 50, 570),
-    new Position(6, 700, 450),
-    new Position(7, 400, 450),
-    new Position(8, 700, 800),
-    new Position(9, 400, 800),
-  ],
+var data = {};
+initialize();
 
-  players: [
-    new Player("Spieler 1", "Players/player-A.png"),
-    new Player("Spieler 2", "Players/player-A.png"),
-    new Player("Spieler 3", "Players/player-A.png"),
-    new Player("Spieler 4", "Players/player-A.png"),
-    new Player("Spieler 5", "Players/player-A.png"),
-    new Player("Spieler 6", "Players/player-B.png"),
-    new Player("Spieler 7", "Players/player-B.png"),
-    new Player("Spieler 8", "Players/player-B.png"),
-    new Player("Spieler 9", "Players/player-B.png"),
-    new Player("Spieler 10", "Players/player-B.png"),
-  ],
+function initialize() {
+  data = {
+    positions: [
+      new Position(0, 1650, 570),
+      new Position(1, 1400, 450),
+      new Position(2, 1100, 450),
+      new Position(3, 1400, 800),
+      new Position(4, 1100, 800),
+      new Position(5, 50, 570),
+      new Position(6, 700, 450),
+      new Position(7, 400, 450),
+      new Position(8, 700, 800),
+      new Position(9, 400, 800),
+    ],
 
-  options: ["goal", "top left", "top right", "bottom left", "bottom right"],
+    players: [
+      new Player("Spieler 1", "Players/player-A.png"),
+      new Player("Spieler 2", "Players/player-A.png"),
+      new Player("Spieler 3", "Players/player-A.png"),
+      new Player("Spieler 4", "Players/player-A.png"),
+      new Player("Spieler 5", "Players/player-A.png"),
+      new Player("Spieler 6", "Players/player-B.png"),
+      new Player("Spieler 7", "Players/player-B.png"),
+      new Player("Spieler 8", "Players/player-B.png"),
+      new Player("Spieler 9", "Players/player-B.png"),
+      new Player("Spieler 10", "Players/player-B.png"),
+    ],
 
-  picked_positions: [],
+    options: ["goal", "top left", "top right", "bottom left", "bottom right"],
 
-  A_open: true,
-  B_open: true,
-};
+    picked_positions: [],
 
-data.positions.forEach((pos) => {
-  pos.moveToRandomLocation();
-});
+    A_open: true,
+    B_open: true,
+
+    turnplayer: "",
+  };
+
+  data.positions.forEach((pos) => {
+    pos.moveToRandomLocation();
+  });
+}
 
 function sendData() {
   io.sockets.emit("send_data", data);

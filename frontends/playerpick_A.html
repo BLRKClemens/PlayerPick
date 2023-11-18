@@ -42,6 +42,19 @@
         font-size: 50px;
         padding-top: 50px;
       }
+
+      .resetbutton {
+        align-items: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -50px;
+        margin-left: -50px;
+
+        font-size: 50px;
+        padding-top: 50px;
+        visibility: hidden;
+      }
     </style>
   </head>
 
@@ -135,10 +148,16 @@
     </div>
     <div style="clear: both"></div>
     <div id="turnTextField" class="text"></div>
+    <button id="button_reset" class="resetbutton">RESET</button>
 
     <script type="module">
       import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
       const socket = io();
+
+      function resetBoard() {
+        console.log("reset");
+        socket.emit("reset");
+      }
 
       function initializeControls() {
         document.querySelectorAll(".wrapper > div").forEach((div, index) => {
@@ -160,6 +179,12 @@
             socket.emit("undo", index, streamer_id);
           });
 
+          document
+            .getElementById("button_reset")
+            .addEventListener("click", () => {
+              socket.emit("reset");
+            });
+
           button_pick.classList.add("pickButton");
           button_pick.innerHTML = "PICK";
 
@@ -175,10 +200,15 @@
       initializeControls();
       const streamer_id = "A";
 
+      document.title = `Playerpick ${streamer_id}`;
+
+      const start = streamer_id == "A" ? 0 : 5;
+
       socket.on("send_data", (data) => {
+        updateText(data);
+        updateResetButton(data);
         document.querySelectorAll(".player").forEach((player, index) => {
           updatePlayer(player, data, index);
-          updateText(data);
           //updateDropDownList(data);
         });
       });
@@ -216,9 +246,9 @@
           }
 
           data.options.forEach((option, index) => {
-            if (!data.picked_positions.includes(index)) {
+            if (!data.picked_positions.includes(index + start)) {
               var opt = document.createElement("option");
-              opt.value = index;
+              opt.value = index + start;
               opt.text = option;
               controls.dropDownMenu.appendChild(opt);
             }
@@ -227,14 +257,33 @@
       }
 
       function updateText(data) {
-        var text = document.querySelector(".text");
-        if (data.A_open && !data.B_open && streamer_id == "A") {
-          text.innerHTML = "YOUR TURN!";
-        } else if (!data.A_open && data.B_open && streamer_id == "B") {
+        let text = document.querySelector(".text");
+        if (
+          data.turnplayer == streamer_id &&
+          !allPositionsPicked(data) &&
+          !noPositionPicked(data)
+        ) {
           text.innerHTML = "YOUR TURN!";
         } else {
           text.innerHTML = "";
         }
+      }
+
+      function updateResetButton(data) {
+        let resetbutton = document.querySelector(".resetbutton");
+        if (allPositionsPicked(data)) {
+          resetbutton.style.visibility = "visible";
+        } else {
+          resetbutton.style.visibility = "hidden";
+        }
+      }
+
+      function allPositionsPicked(data) {
+        return data.picked_positions.length == 10;
+      }
+
+      function noPositionPicked(data) {
+        return data.picked_positions.length == 0;
       }
     </script>
   </body>
