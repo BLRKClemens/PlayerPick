@@ -141,7 +141,7 @@ function initialize() {
       new Player("Spieler 10", "Players/player-A.png"),
     ],
 
-    options: ["Goalkeeper", "Defender left", "Striker left", "Defeneder right", "Striker right"],
+    options: ["Goalkeeper", "Defender left", "Striker left", "Defender right", "Striker right"],
 
     picked_positions: [],
 
