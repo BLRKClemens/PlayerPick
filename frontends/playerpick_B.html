@@ -266,15 +266,12 @@
 
       function updateText(data) {
         let text = document.querySelector(".text");
-        if (
-          data.turnplayer == streamer_id &&
-          !allPositionsPicked(data) &&
-          !noPositionPicked(data)
-        ) {
-          text.innerHTML = "YOUR TURN!";
-        } else {
-          text.innerHTML = "";
-        }
+
+if (allPositionsPicked(data) || noPositionPicked(data)){
+  text.innerHTML = "";
+}
+else
+  text.innerHTML = `Teamcaptain ${data.captains[data.turnplayer]} can pick!`;
       }
 
       function updateResetButton(data) {
