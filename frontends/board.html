@@ -88,12 +88,15 @@
         setPosition(position, newPosition.right, newPosition. top);
         position.style.width =`${newPosition.width}px`;
         position.style.opacity = newPosition.picked ? 1 : 0;
-        position.src = newPosition.player.image_path;
+        if (newPosition.position < 5)
+        position.src = newPosition.player.image_path['blue'];
+        else
+        position.src = newPosition.player.image_path['yellow'];
     }
 
     function updatePlayer(player, newPlayer){
         
-        player.src = newPlayer.image_path;
+        player.src = newPlayer.image_path['black'];
         player.style.opacity = newPlayer.picked ? 0.3 : 1;
     }
 

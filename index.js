@@ -86,7 +86,11 @@ class Position {
     this.org_top = top;
     this.width = width;
     this.alt = position_index;
-    this.player = new Player("default", "Players/player-A.png");
+    this.player = new Player("default", {
+      black: "Players/player-C.png",
+        blue: "Players/player-A.png",
+        yellow: "Players/player-B.png",
+    });
     this.picked = false;
   }
 
@@ -129,19 +133,65 @@ function initialize() {
     ],
 
     players: [
-      new Player("Spieler 1", "Players/player-A.png"),
-      new Player("Spieler 2", "Players/player-A.png"),
-      new Player("Spieler 3", "Players/player-A.png"),
-      new Player("Spieler 4", "Players/player-A.png"),
-      new Player("Spieler 5", "Players/player-A.png"),
-      new Player("Spieler 6", "Players/player-A.png"),
-      new Player("Spieler 7", "Players/player-A.png"),
-      new Player("Spieler 8", "Players/player-A.png"),
-      new Player("Spieler 9", "Players/player-A.png"),
-      new Player("Spieler 10", "Players/player-A.png"),
+      new Player("Spieler 1", {
+        black: "Players/player-C.png",
+        blue: "Players/player-A.png",
+        yellow: "Players/player-B.png",
+      }),
+      new Player("Spieler 2", {
+        black: "Players/player-C.png",
+        blue: "Players/player-A.png",
+        yellow: "Players/player-B.png",
+      }),
+      new Player("Spieler 3", {
+        black: "Players/player-C.png",
+        blue: "Players/player-A.png",
+        yellow: "Players/player-B.png",
+      }),
+      new Player("Spieler 4", {
+        black: "Players/player-C.png",
+        blue: "Players/player-A.png",
+        yellow: "Players/player-B.png",
+      }),
+      new Player("Spieler 5", {
+        black: "Players/player-C.png",
+        blue: "Players/player-A.png",
+        yellow: "Players/player-B.png",
+      }),
+      new Player("Spieler 6", {
+        black: "Players/player-C.png",
+        blue: "Players/player-A.png",
+        yellow: "Players/player-B.png",
+      }),
+      new Player("Spieler 7", {
+        black: "Players/player-C.png",
+        blue: "Players/player-A.png",
+        yellow: "Players/player-B.png",
+      }),
+      new Player("Spieler 8", {
+        black: "Players/player-C.png",
+        blue: "Players/player-A.png",
+        yellow: "Players/player-B.png",
+      }),
+      new Player("Spieler 9", {
+        black: "Players/player-C.png",
+        blue: "Players/player-A.png",
+        yellow: "Players/player-B.png",
+      }),
+      new Player("Spieler 10", {
+        black: "Players/player-C.png",
+        blue: "Players/player-A.png",
+        yellow: "Players/player-B.png",
+      }),
     ],
 
-    options: ["Goalkeeper", "Defender left", "Striker left", "Defender right", "Striker right"],
+    options: [
+      "Goalkeeper",
+      "Defender left",
+      "Striker left",
+      "Defender right",
+      "Striker right",
+    ],
 
     picked_positions: [],
 
@@ -149,6 +199,7 @@ function initialize() {
     B_open: true,
 
     turnplayer: "",
+    captains: { A: "A", B: "B" },
   };
 
   data.positions.forEach((pos) => {

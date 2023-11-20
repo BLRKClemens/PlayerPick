@@ -33,6 +33,7 @@
 
       .text {
         align-items: center;
+        justify-content: center;
         position: absolute;
         top: 50%;
         left: 50%;
@@ -215,7 +216,7 @@
 
       function updatePlayer(player, data, index, picked_positions) {
         const newPlayer = data.players[index];
-        player.src = newPlayer.image_path;
+        player.src = newPlayer.image_path["blue"];
 
         const controls = {
           pickButton: document.getElementById(`button_pick_${player.id}`),
