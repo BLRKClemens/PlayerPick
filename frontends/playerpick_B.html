@@ -159,6 +159,8 @@
         socket.emit("reset");
       }
 
+      
+
       function initializeControls() {
         document.querySelectorAll(".wrapper > div").forEach((div, index) => {
           const player_id = div.querySelector(".player").id;
@@ -170,9 +172,10 @@
           var button_redo = document.createElement("button");
           button_pick.id = `button_pick_${player_id}`;
           button_redo.id = `button_redo_${player_id}`;
-
+          
           button_pick.addEventListener("click", () => {
-            socket.emit("pick_player", index, select.value, streamer_id);
+            console.log(select.value);
+            socket.emit("pick_player", index, position_mapping[select.value % 5], streamer_id);
           });
 
           button_redo.addEventListener("click", () => {
@@ -197,12 +200,17 @@
         });
       }
 
-      initializeControls();
       const streamer_id = "B";
+      const start = streamer_id == "A" ? 0 : 5;
+
+      const position_mapping = [5, 9, 8, 7, 6];
+
+      initializeControls();
+      
 
       document.title = `Playerpick ${streamer_id}`;
 
-      const start = streamer_id == "A" ? 0 : 5;
+      
 
       socket.on("send_data", (data) => {
         updateText(data);
@@ -246,7 +254,7 @@
           }
 
           data.options.forEach((option, index) => {
-            if (!data.picked_positions.includes(index + start)) {
+            if (!data.picked_positions.includes(position_mapping[index])) {
               var opt = document.createElement("option");
               opt.value = index + start;
               opt.text = option;
