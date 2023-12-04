@@ -30,8 +30,7 @@ io.on("connection", (socket) => {
     const position = data.positions[pos];
     const player = data.players[pla];
 
-    if (player.picked == false && position.picked == false) 
-      if (timeOutId == null){
+    if (player.picked == false && position.picked == false) {
         position.setPosition(position.org_right, position.org_top);
         position.player = player;
         player.position = position.position;
@@ -141,66 +140,66 @@ function initialize() {
     ],
 
     players: [
-      new Player("Spieler 1", {
+      new Player("Player 1", {
         black: "Players/player-C.png",
         blue: "Players/player-A.png",
         yellow: "Players/player-B.png",
       },
-      lowerThirdData["Spieler 1"]),
-      new Player("Spieler 2", {
+      lowerThirdData["Player 1"]),
+      new Player("Player 2", {
         black: "Players/player-C.png",
         blue: "Players/player-A.png",
         yellow: "Players/player-B.png",
       },
-      lowerThirdData["Spieler 2"]),
-      new Player("Spieler 3", {
+      lowerThirdData["Player 2"]),
+      new Player("Player 3", {
         black: "Players/player-C.png",
         blue: "Players/player-A.png",
         yellow: "Players/player-B.png",
       },
-      lowerThirdData["Spieler 3"]),
-      new Player("Spieler 4", {
+      lowerThirdData["Player 3"]),
+      new Player("Player 4", {
         black: "Players/player-C.png",
         blue: "Players/player-A.png",
         yellow: "Players/player-B.png",
       },
-      lowerThirdData["Spieler 4"]),
-      new Player("Spieler 5", {
+      lowerThirdData["Player 4"]),
+      new Player("Player 5", {
         black: "Players/player-C.png",
         blue: "Players/player-A.png",
         yellow: "Players/player-B.png",
       },
-      lowerThirdData["Spieler 5"]),
-      new Player("Spieler 6", {
+      lowerThirdData["Player 5"]),
+      new Player("Player 6", {
         black: "Players/player-C.png",
         blue: "Players/player-A.png",
         yellow: "Players/player-B.png",
       },
-      lowerThirdData["Spieler 6"]),
-      new Player("Spieler 7", {
+      lowerThirdData["Player 6"]),
+      new Player("Player 7", {
         black: "Players/player-C.png",
         blue: "Players/player-A.png",
         yellow: "Players/player-B.png",
       },
-      lowerThirdData["Spieler 7"]),
-      new Player("Spieler 8", {
+      lowerThirdData["Player 7"]),
+      new Player("Player 8", {
         black: "Players/player-C.png",
         blue: "Players/player-A.png",
         yellow: "Players/player-B.png",
       },
-      lowerThirdData["Spieler 8"]),
-      new Player("Spieler 9", {
+      lowerThirdData["Player 8"]),
+      new Player("Player 9", {
         black: "Players/player-C.png",
         blue: "Players/player-A.png",
         yellow: "Players/player-B.png",
       },
-      lowerThirdData["Spieler 9"]),
-      new Player("Spieler 10", {
+      lowerThirdData["Player 9"]),
+      new Player("Player 10", {
         black: "Players/player-C.png",
         blue: "Players/player-A.png",
         yellow: "Players/player-B.png",
       },
-      lowerThirdData["Spieler 10"]),
+      lowerThirdData["Player 10"]),
     ],
 
     options: [

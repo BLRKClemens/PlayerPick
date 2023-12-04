@@ -36,7 +36,7 @@
         justify-content: center;
         position: absolute;
         top: 50%;
-        left: 50%;
+        left: 30%;
         margin-top: -50px;
         margin-left: -50px;
 
@@ -264,7 +264,11 @@
           text.innerHTML = "";
         }
         else
-          text.innerHTML = `Teamcaptain ${data.captains[data.turnplayer]} can pick!`;
+        if (data.turnplayer == streamer_id)
+          text.innerHTML = `Teamcaptain ${data.captains[data.turnplayer]}, you can pick!`;
+        else
+        text.innerHTML = `Please wait, Teamcaptain ${data.captains[data.turnplayer]} is picking!`;
+
       }
 
       function updateResetButton(data) {

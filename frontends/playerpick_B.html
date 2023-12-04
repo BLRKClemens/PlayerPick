@@ -33,9 +33,10 @@
 
       .text {
         align-items: center;
+        justify-content: center;
         position: absolute;
         top: 50%;
-        left: 50%;
+        left: 30%;
         margin-top: -50px;
         margin-left: -50px;
 
@@ -159,8 +160,6 @@
         socket.emit("reset");
       }
 
-      
-
       function initializeControls() {
         document.querySelectorAll(".wrapper > div").forEach((div, index) => {
           const player_id = div.querySelector(".player").id;
@@ -172,10 +171,15 @@
           var button_redo = document.createElement("button");
           button_pick.id = `button_pick_${player_id}`;
           button_redo.id = `button_redo_${player_id}`;
-          
+
           button_pick.addEventListener("click", () => {
             console.log(select.value);
-            socket.emit("pick_player", index, position_mapping[select.value % 5], streamer_id);
+            socket.emit(
+              "pick_player",
+              index,
+              position_mapping[select.value % 5],
+              streamer_id
+            );
           });
 
           button_redo.addEventListener("click", () => {
@@ -206,11 +210,8 @@
       const position_mapping = [5, 9, 8, 7, 6];
 
       initializeControls();
-      
 
       document.title = `Playerpick ${streamer_id}`;
-
-      
 
       socket.on("send_data", (data) => {
         updateText(data);
@@ -267,11 +268,17 @@
       function updateText(data) {
         let text = document.querySelector(".text");
 
-if (allPositionsPicked(data) || noPositionPicked(data)){
-  text.innerHTML = "";
-}
-else
-  text.innerHTML = `Teamcaptain ${data.captains[data.turnplayer]} can pick!`;
+        if (allPositionsPicked(data) || noPositionPicked(data)) {
+          text.innerHTML = "";
+        }
+        if (data.turnplayer == streamer_id)
+          text.innerHTML = `Teamcaptain ${
+            data.captains[data.turnplayer]
+          }, you can pick!`;
+        else
+          text.innerHTML = `Please wait, Teamcaptain ${
+            data.captains[data.turnplayer]
+          } is picking!`;
       }
 
       function updateResetButton(data) {
