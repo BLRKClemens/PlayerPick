@@ -7,6 +7,22 @@
 </head>
 
 <style>
+    @font-face {
+        font-family: lowerThirdtextLeft;
+        src: url(Fonts/CircularStd-Black.otf);
+    }
+
+    @font-face {
+        font-family: lowerThirdtextRight;
+        src: url(Fonts/CircularStd-Light.otf);
+    }
+
+    @font-face {
+        font-family: lowerThirdTitle;
+        src: url(Fonts/CircularStd-BoldItalic.otf);
+    }
+
+   
     .Container { 
         position: relative; 
     } 
@@ -34,10 +50,90 @@
         position: relative;
         float:left;
     }
+
+    .lowerThirdContainer{
+        position: absolute;
+        top:850px;
+        left:-1000px;
+        opacity: 0;
+        transition: all 1s;
+        
+    }
+
+    .lowerThirdTitle{
+        font-size: 30px;
+        font-family: lowerThirdTextLeft;
+        color: black;
+        background-color: #cdf564;
+        max-width: fit-content;
+        max-height: 100px;
+
+        padding-left: 10px;
+        padding-right: 100px;
+        padding-bottom: 10px;
+        padding-top: 10px;
+
+        
+
+    }
+
+    .lowerThirdTextContainerOuter{
+        font-family: lowerThirdText;
+        background-color: black;
+        width:600px;
+        border-width: 5px;
+        border-style: solid;
+        border-left: 0px;
+        border-right: 0px;
+        border-top: 0px;
+        border-color: #cdf564;
+        
+        
+        padding-left: 30px;
+        padding-right: 10px;
+        padding-bottom: 30px;
+        padding-top: 30px;
+       
+
+    }
+
+    .lowerThirdTextContainerInner{
+        border-style: solid;
+        border-color: #cdf564;
+        border-bottom: 0px;
+        border-right: 0px;
+        border-top: 0px;
+        padding-left: 10px;
+
+        border-width: 2px;
+    }
+
+    .lowerThirdTextLeft{
+        font-size: 20px;
+        color:white;
+        float: left;
+        width: 200px;
+        max-width: 200px;
+        font-family: lowerThirdTextLeft;
+    }
+    .lowerThirdTextRight{
+        font-size: 20px;
+        color:#cdf564;
+        font-family: lowerThirdTextRight;
+
+    }
+    .spotify_logo{
+        position: absolute;
+        top:10px;
+        left:40px;
+        width:200px;
+        height: auto;
+    }
 </style>
 <body>
 <div class="Container">
-    <img src="FS/Board.png" alt="Board">
+    <img src="FS/Board_2.png" alt="Board">
+    <img src="FS/spotify_logo.png" alt="Logo" class="spotify_logo">
     <img src="Players/player-B.png" alt="player a" class="player" id="p_1">
     <img src="Players/player-B.png" alt="player a" class="player" id="p_2">
     <img src="Players/player-B.png" alt="player a" class="player" id="p_3">
@@ -61,6 +157,28 @@
     <img src="Players/player-A.png" alt="player a" class="position" id="pos_8">
     <img src="Players/player-A.png" alt="player a" class="position" id="pos_9">
     <img src="Players/player-A.png" alt="player a" class="position" id="pos_10">
+
+    <div class="lowerThirdContainer" id="lowerThirdContainer">
+        <div class="lowerThirdTitle" id="lowerThirdTitle"> 
+            PLAYER NAME 1
+        </div>
+        <div class="lowerThirdTextContainerOuter" id="lowerThirdTextContainerOuter">
+            <div class="lowerThirdTextContainerInner" id="lowerThirdTextContainerInner">
+                <div class="lowerThirdTextLeft" id="lowerThirdTextLeft1">
+                    FAVORITE SONG: 
+                </div>
+                <div class="lowerThirdTextRight" id="lowerThirdTextRight1">
+                    KENDRICK LAMAR - HUMBLE.
+                </div>
+                <div class="lowerThirdTextLeft" id="lowerThirdTextLeft2">
+                    FAVORITE ARTIST: 
+                </div>
+                <div class="lowerThirdTextRight" id="lowerThirdTextRight2">
+                    PERIPHERY
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script type="module">
@@ -72,6 +190,36 @@
     socket.on('send_data', (data) =>{
         updateBoard(data.positions, data.players);
     });
+    socket.on('showLowerThird', (player, data) =>{
+        let lowerThirdData = data.players[player].lowerThirdFacts;
+        let lowerThird = document.getElementById("lowerThirdContainer");
+        let title = document.getElementById("lowerThirdTitle");
+        let right1 = document.getElementById("lowerThirdTextRight1");
+        let right2 = document.getElementById("lowerThirdTextRight2");
+        let turnplayer_opposite = data.turnplayer == "A" ? "B" : "A";
+        title.innerHTML = data.players[player].name.toUpperCase();
+        title.style.backgroundColor = data.colors[turnplayer_opposite];
+        document.getElementById("lowerThirdTextLeft1").innerHTML = lowerThirdData["fact1"]["left"].toUpperCase();
+        right1.innerHTML = lowerThirdData["fact1"]["right"].toUpperCase();
+        right1.style.color = data.colors[turnplayer_opposite];
+        document.getElementById("lowerThirdTextLeft2").innerHTML = lowerThirdData["fact2"]["left"].toUpperCase();
+        right2.innerHTML = lowerThirdData["fact2"]["right"].toUpperCase();
+        right2.style.color = data.colors[turnplayer_opposite];
+
+        document.getElementById("lowerThirdTextContainerInner").style.borderColor = data.colors[turnplayer_opposite];
+        document.getElementById("lowerThirdTextContainerOuter").style.borderColor = data.colors[turnplayer_opposite];
+
+
+        lowerThird.style.top = "850px";
+        lowerThird.style.left = "20px";
+        lowerThird.style.opacity = 1;
+
+        let timeOutId = setTimeout(() => {
+            lowerThird.style.left = "-1000px";
+            lowerThird.style.opacity = 0;
+        }, 7000);
+        console.log(timeOutId);
+    });
 
     function updateBoard(positions, players) {
         document.querySelectorAll('.position').forEach((pos, index) => {
@@ -82,6 +230,8 @@
             setPosition(player, 1400-index*120, 15);
             updatePlayer(player, players[index]);
         });
+
+        
     };
 
     function updatePosition(position, newPosition){

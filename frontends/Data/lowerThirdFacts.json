@@ -1,0 +1,113 @@
+{
+    "Spieler 1": 
+    {
+        "fact1":{
+            "left": "FAVORITE SONG:",
+            "right": "KENDRICK LAMAR - HUMBLE."
+          },
+          "fact2":{
+            "left": "FAVORITE ARTIST:",
+            "right": "PERIPHERY"
+          }
+    },
+    "Spieler 2": 
+    {
+        "fact1":{
+            "left": "FAVORITE SOooooNG:",
+            "right": "KENDRICK LAMAR - HUMBLE."
+          },
+          "fact2":{
+            "left": "FAVORITE ARTIST:",
+            "right": "PERIPHERY"
+          }
+    },
+    "Spieler 3": 
+    {
+        "fact1":{
+            "left": "FAVORITE SONG:",
+            "right": "KENDRICK LAMAR - HUMBLE."
+          },
+          "fact2":{
+            "left": "FAVORITE ARTIST:",
+            "right": "PERIPHERY"
+          }
+    },
+    "Spieler 4": 
+    {
+        "fact1":{
+            "left": "FAVORITE SONG:",
+            "right": "KENDRICK LAMAR - HUMBLE."
+          },
+          "fact2":{
+            "left": "FAVORITE ARTIST:",
+            "right": "PERIPHERY"
+          }
+    },
+    "Spieler 5": 
+    {
+        "fact1":{
+            "left": "FAVORITE SONG:",
+            "right": "KENDRICK LAMAR - HUMBLE."
+          },
+          "fact2":{
+            "left": "FAVORITE ARTIST:",
+            "right": "PERIPHERY"
+          }
+    },
+    "Spieler 6": 
+    {
+        "fact1":{
+            "left": "FAVORITE SONG:",
+            "right": "KENDRICK LAMAR - HUMBLE."
+          },
+          "fact2":{
+            "left": "FAVORITE ARTIST:",
+            "right": "PERIPHERY"
+          }
+    },
+    "Spieler 7": 
+    {
+        "fact1":{
+            "left": "FAVORITE SONG:",
+            "right": "KENDRICK LAMAR - HUMBLE."
+          },
+          "fact2":{
+            "left": "FAVORITE ARTIST:",
+            "right": "PERIPHERY"
+          }
+    },
+    "Spieler 8": 
+    {
+        "fact1":{
+            "left": "FAVORITE SONG:",
+            "right": "KENDRICK LAMAR - HUMBLE."
+          },
+          "fact2":{
+            "left": "FAVORITE ARTIST:",
+            "right": "PERIPHERY"
+          }
+    },
+    "Spieler 9": 
+    {
+        "fact1":{
+            "left": "FAVORITE SONG:",
+            "right": "KENDRICK LAMAR - HUMBLE."
+          },
+          "fact2":{
+            "left": "FAVORITE ARTIST:",
+            "right": "PERIPHERY"
+          }
+    },
+    "Spieler 10": 
+    {
+        "fact1":{
+            "left": "FAVORITE SONG:",
+            "right": "KENDRICK LAMAR - HUMBLE."
+          },
+          "fact2":{
+            "left": "FAVORITE ARTIST:",
+            "right": "PERIPHERY"
+          }
+    }
+
+}

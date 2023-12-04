@@ -7,6 +7,9 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 app.use(express.static("frontends"));
+//fetch("frontends/Data/lowerThirdFacts.json").then((response) => response.json()).then((json) => console.log(json));
+import lowerThirdData from "./frontends/Data/lowerThirdFacts.json" assert {type: "json"};
+
 io.on("connection", (socket) => {
   const IP_ADRESS = socket.request.socket.remoteAddress;
   console.log(`Client connected with Address: ${IP_ADRESS}`);
@@ -40,6 +43,7 @@ io.on("connection", (socket) => {
       data.turnplayer = streamer_id == "A" ? "B" : "A";
 
       sendData();
+      updateLowerThird(pla);
     }
   }
 
@@ -68,12 +72,13 @@ io.on("connection", (socket) => {
 });
 
 class Player {
-  constructor(name, img_path) {
+  constructor(name, img_path, lowerThirdFacts) {
     this.name = name;
     this.image_path = img_path;
     this.picked = false;
     this.pickedBy = "";
     this.position = null;
+    this.lowerThirdFacts = lowerThirdFacts;
   }
 }
 
@@ -137,52 +142,62 @@ function initialize() {
         black: "Players/player-C.png",
         blue: "Players/player-A.png",
         yellow: "Players/player-B.png",
-      }),
+      },
+      lowerThirdData["Spieler 1"]),
       new Player("Spieler 2", {
         black: "Players/player-C.png",
         blue: "Players/player-A.png",
         yellow: "Players/player-B.png",
-      }),
+      },
+      lowerThirdData["Spieler 2"]),
       new Player("Spieler 3", {
         black: "Players/player-C.png",
         blue: "Players/player-A.png",
         yellow: "Players/player-B.png",
-      }),
+      },
+      lowerThirdData["Spieler 3"]),
       new Player("Spieler 4", {
         black: "Players/player-C.png",
         blue: "Players/player-A.png",
         yellow: "Players/player-B.png",
-      }),
+      },
+      lowerThirdData["Spieler 4"]),
       new Player("Spieler 5", {
         black: "Players/player-C.png",
         blue: "Players/player-A.png",
         yellow: "Players/player-B.png",
-      }),
+      },
+      lowerThirdData["Spieler 5"]),
       new Player("Spieler 6", {
         black: "Players/player-C.png",
         blue: "Players/player-A.png",
         yellow: "Players/player-B.png",
-      }),
+      },
+      lowerThirdData["Spieler 6"]),
       new Player("Spieler 7", {
         black: "Players/player-C.png",
         blue: "Players/player-A.png",
         yellow: "Players/player-B.png",
-      }),
+      },
+      lowerThirdData["Spieler 7"]),
       new Player("Spieler 8", {
         black: "Players/player-C.png",
         blue: "Players/player-A.png",
         yellow: "Players/player-B.png",
-      }),
+      },
+      lowerThirdData["Spieler 8"]),
       new Player("Spieler 9", {
         black: "Players/player-C.png",
         blue: "Players/player-A.png",
         yellow: "Players/player-B.png",
-      }),
+      },
+      lowerThirdData["Spieler 9"]),
       new Player("Spieler 10", {
         black: "Players/player-C.png",
         blue: "Players/player-A.png",
         yellow: "Players/player-B.png",
-      }),
+      },
+      lowerThirdData["Spieler 10"]),
     ],
 
     options: [
@@ -200,6 +215,7 @@ function initialize() {
 
     turnplayer: "",
     captains: { A: "A", B: "B" },
+    colors: {A: "#2d46b9", B: "#cdf564"}
   };
 
   data.positions.forEach((pos) => {
@@ -209,6 +225,10 @@ function initialize() {
 
 function sendData() {
   io.sockets.emit("send_data", data);
+}
+
+function updateLowerThird(player) {
+  io.sockets.emit("showLowerThird", player, data);
 }
 
 server.listen(3000, () => {
