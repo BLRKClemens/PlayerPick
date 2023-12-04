@@ -190,36 +190,41 @@
     socket.on('send_data', (data) =>{
         updateBoard(data.positions, data.players);
     });
-    socket.on('showLowerThird', (player, data) =>{
+    var timeOutId;
+    socket.on('showLowerThird', (player, turnplayer, data) =>{
         let lowerThirdData = data.players[player].lowerThirdFacts;
         let lowerThird = document.getElementById("lowerThirdContainer");
         let title = document.getElementById("lowerThirdTitle");
         let right1 = document.getElementById("lowerThirdTextRight1");
         let right2 = document.getElementById("lowerThirdTextRight2");
         let turnplayer_opposite = data.turnplayer == "A" ? "B" : "A";
-        title.innerHTML = data.players[player].name.toUpperCase();
-        title.style.backgroundColor = data.colors[turnplayer_opposite];
-        document.getElementById("lowerThirdTextLeft1").innerHTML = lowerThirdData["fact1"]["left"].toUpperCase();
-        right1.innerHTML = lowerThirdData["fact1"]["right"].toUpperCase();
-        right1.style.color = data.colors[turnplayer_opposite];
-        document.getElementById("lowerThirdTextLeft2").innerHTML = lowerThirdData["fact2"]["left"].toUpperCase();
-        right2.innerHTML = lowerThirdData["fact2"]["right"].toUpperCase();
-        right2.style.color = data.colors[turnplayer_opposite];
 
+        //update text
+        title.innerHTML = data.players[player].name.toUpperCase();
+        document.getElementById("lowerThirdTextLeft1").innerHTML = lowerThirdData["fact1"]["left"].toUpperCase();
+        document.getElementById("lowerThirdTextLeft2").innerHTML = lowerThirdData["fact2"]["left"].toUpperCase();
+        right1.innerHTML = lowerThirdData["fact1"]["right"].toUpperCase();
+        right2.innerHTML = lowerThirdData["fact2"]["right"].toUpperCase();
+
+        //update color
+        title.style.backgroundColor = data.colors[turnplayer_opposite];
+        right1.style.color = data.colors[turnplayer_opposite];
+        right2.style.color = data.colors[turnplayer_opposite];
         document.getElementById("lowerThirdTextContainerInner").style.borderColor = data.colors[turnplayer_opposite];
         document.getElementById("lowerThirdTextContainerOuter").style.borderColor = data.colors[turnplayer_opposite];
 
-
+        //update position
         lowerThird.style.top = "850px";
         lowerThird.style.left = "20px";
         lowerThird.style.opacity = 1;
-
-        let timeOutId = setTimeout(() => {
-            lowerThird.style.left = "-1000px";
-            lowerThird.style.opacity = 0;
-        }, 7000);
-        console.log(timeOutId);
     });
+
+    socket.on('hideLowerThird', () =>{
+        let lowerThird = document.getElementById("lowerThirdContainer");
+        lowerThird.style.left = "-1000px";
+        lowerThird.style.opacity = 0;
+    });
+
 
     function updateBoard(positions, players) {
         document.querySelectorAll('.position').forEach((pos, index) => {

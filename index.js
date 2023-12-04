@@ -9,6 +9,7 @@ const io = new Server(server);
 app.use(express.static("frontends"));
 //fetch("frontends/Data/lowerThirdFacts.json").then((response) => response.json()).then((json) => console.log(json));
 import lowerThirdData from "./frontends/Data/lowerThirdFacts.json" assert {type: "json"};
+var timeOutId = null;
 
 io.on("connection", (socket) => {
   const IP_ADRESS = socket.request.socket.remoteAddress;
@@ -25,43 +26,45 @@ io.on("connection", (socket) => {
       pickPlayer(position, player, streamer_id);
     }
   });
-
   function pickPlayer(pos, pla, streamer_id) {
     const position = data.positions[pos];
     const player = data.players[pla];
 
-    if (player.picked == false && position.picked == false) {
-      position.setPosition(position.org_right, position.org_top);
-      position.player = player;
-      player.position = position.position;
-      position.picked = true;
-      position.player.picked = true;
-      position.player.pickedBy = streamer_id;
+    if (player.picked == false && position.picked == false) 
+      if (timeOutId == null){
+        position.setPosition(position.org_right, position.org_top);
+        position.player = player;
+        player.position = position.position;
+        position.picked = true;
+        position.player.picked = true;
+        position.player.pickedBy = streamer_id;
 
-      data.picked_positions.push(position.position);
+        data.picked_positions.push(position.position);
 
-      data.turnplayer = streamer_id == "A" ? "B" : "A";
-
-      sendData();
-      updateLowerThird(pla);
+        data.turnplayer = streamer_id == "A" ? "B" : "A";
+        showLowerThird(pla, data.turnplayer);
+        timeOutId = setTimeout(hideLowerThird, 7000);
+        sendData();
     }
   }
 
   socket.on("undo", (index, streamer_id) => {
     if (streamer_id != data.turnplayer) {
-      var player = data.players[index];
-      var position = data.positions[player.position];
-      player.picked = false;
-      position.picked = false;
-      player.position = null;
-      data.turnplayer = data.turnplayer == "A" ? "B" : "A";
-      position.moveToRandomLocation();
-      //remove position from picked positions
-      data.picked_positions = data.picked_positions.filter(
-        (pos) => pos != position.position
-      );
+        var player = data.players[index];
+        var position = data.positions[player.position];
+        player.picked = false;
+        position.picked = false;
+        player.position = null;
+        data.turnplayer = data.turnplayer == "A" ? "B" : "A";
+        position.moveToRandomLocation();
+        //remove position from picked positions
+        data.picked_positions = data.picked_positions.filter(
+          (pos) => pos != position.position
+        );
 
-      sendData();
+        
+        hideLowerThird();
+        sendData();
     }
   });
 
@@ -215,7 +218,7 @@ function initialize() {
 
     turnplayer: "",
     captains: { A: "A", B: "B" },
-    colors: {A: "#2d46b9", B: "#cdf564"}
+    colors: {A: "#2d46b9", B: "#cdf564"},
   };
 
   data.positions.forEach((pos) => {
@@ -227,8 +230,14 @@ function sendData() {
   io.sockets.emit("send_data", data);
 }
 
-function updateLowerThird(player) {
-  io.sockets.emit("showLowerThird", player, data);
+function showLowerThird(player, turnplayer) {
+  io.sockets.emit("showLowerThird", player, turnplayer, data);
+}
+
+function hideLowerThird() {
+  clearTimeout(timeOutId);
+  timeOutId = null;
+  io.sockets.emit("hideLowerThird");
 }
 
 server.listen(3000, () => {
