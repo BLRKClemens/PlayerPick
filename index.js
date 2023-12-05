@@ -11,14 +11,28 @@ app.use(express.static("frontends"));
 import lowerThirdData from "./frontends/Data/lowerThirdFacts.json" assert {type: "json"};
 var timeOutId = null;
 
+function getTime() {
+  let date = new Date();
+  let secs = fillup(date.getSeconds());
+  let mins = fillup(date.getMinutes());
+  let hs = fillup(date.getHours());
+  return `${hs}:${mins}:${secs}`;
+
+  function fillup(time) {
+    return time.toString().length > 1 ? time : `0${time}`
+  }
+}
+
+
 io.on("connection", (socket) => {
+  
   const IP_ADRESS = socket.request.socket.remoteAddress;
-  console.log(`Client connected with Address: ${IP_ADRESS}`);
+  console.log(`Client connected with Address: ${IP_ADRESS} at ${getTime()}`);
 
   sendData();
 
   socket.on("disconnect", () => {
-    console.log(`${IP_ADRESS} disconnected`);
+    console.log(`${IP_ADRESS} disconnected at ${getTime()}`);
   });
 
   socket.on("pick_player", (player, position, streamer_id) => {
