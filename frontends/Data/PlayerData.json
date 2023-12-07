@@ -1,0 +1,122 @@
+{
+  "Esfand": {
+    "images": {
+      "black": "Players/player-C.png",
+      "blue": "Players/player-A.png",
+      "yellow": "Players/player-B.png"
+    },
+
+    "facts": {
+      "favorite_song": "",
+      "favorite_artist": ""
+    }
+  },
+  "Zweback": {
+    "images": {
+      "black": "Players/player-C.png",
+      "blue": "Players/player-A.png",
+      "yellow": "Players/player-B.png"
+    },
+
+    "facts": {
+      "favorite_song": "Danza Kuduro by Don Omar",
+      "favorite_artist": "Dua Lipa"
+    }
+  },
+  "BFordlancer": {
+    "images": {
+      "black": "Players/player-C.png",
+      "blue": "Players/player-A.png",
+      "yellow": "Players/player-B.png"
+    },
+
+    "facts": {
+      "favorite_song": "My Type by Saint Motel",
+      "favorite_artist": "Post Malone"
+    }
+  },
+  "Pazjor": {
+    "images": {
+      "black": "Players/player-C.png",
+      "blue": "Players/player-A.png",
+      "yellow": "Players/player-B.png"
+    },
+
+    "facts": {
+      "favorite_song": "",
+      "favorite_artist": ""
+    }
+  },
+  "Megan Reyes": {
+    "images": {
+      "black": "Players/player-C.png",
+      "blue": "Players/player-A.png",
+      "yellow": "Players/player-B.png"
+    },
+
+    "facts": {
+      "favorite_song": "Big Bank by YG",
+      "favorite_artist": "J Cole"
+    }
+  },
+  "MissLola": {
+    "images": {
+      "black": "Players/player-C.png",
+      "blue": "Players/player-A.png",
+      "yellow": "Players/player-B.png"
+    },
+
+    "facts": {
+      "favorite_song": "Breathe by Fabolous",
+      "favorite_artist": "The Weeknd"
+    }
+  },
+  "Hitch": {
+    "images": {
+      "black": "Players/player-C.png",
+      "blue": "Players/player-A.png",
+      "yellow": "Players/player-B.png"
+    },
+
+    "facts": {
+      "favorite_song": "",
+      "favorite_artist": ""
+    }
+  },
+  "Squeex": {
+    "images": {
+      "black": "Players/player-C.png",
+      "blue": "Players/player-A.png",
+      "yellow": "Players/player-B.png"
+    },
+
+    "facts": {
+      "favorite_song": "Kuch Kuch Hota Hai by Jatin-Lalit",
+      "favorite_artist": "Jason Mraz"
+    }
+  },
+  "BuckArmy": {
+    "images": {
+      "black": "Players/player-C.png",
+      "blue": "Players/player-A.png",
+      "yellow": "Players/player-B.png"
+    },
+
+    "facts": {
+      "favorite_song": "Let Down by Z. Smith",
+      "favorite_artist": "Z. Smith"
+    }
+  },
+  "Erobb": {
+    "images": {
+      "black": "Players/player-C.png",
+      "blue": "Players/player-A.png",
+      "yellow": "Players/player-B.png"
+    },
+
+    "facts": {
+      "favorite_song": "First Day Out by Tee Grizzly",
+      "favorite_artist": "Taylor Swift"
+    }
+  }
+}

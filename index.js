@@ -8,7 +8,7 @@ const io = new Server(server);
 
 app.use(express.static("frontends"));
 //fetch("frontends/Data/lowerThirdFacts.json").then((response) => response.json()).then((json) => console.log(json));
-import lowerThirdData from "./frontends/Data/lowerThirdFacts.json" assert {type: "json"};
+import playerData from "./frontends/Data/PlayerData.json" assert {type: "json"};
 var timeOutId = null;
 
 function getTime() {
@@ -153,68 +153,7 @@ function initialize() {
       new Position(9, 400, 800),
     ],
 
-    players: [
-      new Player("Player 1", {
-        black: "Players/player-C.png",
-        blue: "Players/player-A.png",
-        yellow: "Players/player-B.png",
-      },
-      lowerThirdData["Player 1"]),
-      new Player("Player 2", {
-        black: "Players/player-C.png",
-        blue: "Players/player-A.png",
-        yellow: "Players/player-B.png",
-      },
-      lowerThirdData["Player 2"]),
-      new Player("Player 3", {
-        black: "Players/player-C.png",
-        blue: "Players/player-A.png",
-        yellow: "Players/player-B.png",
-      },
-      lowerThirdData["Player 3"]),
-      new Player("Player 4", {
-        black: "Players/player-C.png",
-        blue: "Players/player-A.png",
-        yellow: "Players/player-B.png",
-      },
-      lowerThirdData["Player 4"]),
-      new Player("Player 5", {
-        black: "Players/player-C.png",
-        blue: "Players/player-A.png",
-        yellow: "Players/player-B.png",
-      },
-      lowerThirdData["Player 5"]),
-      new Player("Player 6", {
-        black: "Players/player-C.png",
-        blue: "Players/player-A.png",
-        yellow: "Players/player-B.png",
-      },
-      lowerThirdData["Player 6"]),
-      new Player("Player 7", {
-        black: "Players/player-C.png",
-        blue: "Players/player-A.png",
-        yellow: "Players/player-B.png",
-      },
-      lowerThirdData["Player 7"]),
-      new Player("Player 8", {
-        black: "Players/player-C.png",
-        blue: "Players/player-A.png",
-        yellow: "Players/player-B.png",
-      },
-      lowerThirdData["Player 8"]),
-      new Player("Player 9", {
-        black: "Players/player-C.png",
-        blue: "Players/player-A.png",
-        yellow: "Players/player-B.png",
-      },
-      lowerThirdData["Player 9"]),
-      new Player("Player 10", {
-        black: "Players/player-C.png",
-        blue: "Players/player-A.png",
-        yellow: "Players/player-B.png",
-      },
-      lowerThirdData["Player 10"]),
-    ],
+    players: initializePlayers(),
 
     options: [
       "Goalkeeper",
@@ -230,13 +169,22 @@ function initialize() {
     B_open: true,
 
     turnplayer: "",
-    captains: { A: "A", B: "B" },
+    captains: { A: "Esfand", B: "Zweback" },
     colors: {A: "#2d46b9", B: "#cdf564"},
   };
 
   data.positions.forEach((pos) => {
     pos.moveToRandomLocation();
   });
+}
+
+function initializePlayers() {
+  let players = [];
+  Object.entries(playerData).forEach((player)=>{
+    players.push(new Player(player[0], player[1]['images'], player[1]['facts']));
+  });
+
+  return players;
 }
 
 function sendData() {

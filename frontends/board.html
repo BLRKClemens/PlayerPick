@@ -1,43 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080, initial-scale=1.0" />
+    <title>Board</title>
+  </head>
 
-<style>
+  <style>
     @font-face {
-        font-family: lowerThirdtextLeft;
-        src: url(Fonts/CircularStd-Black.otf);
-    }
-
-    @font-face {
-        font-family: lowerThirdtextRight;
-        src: url(Fonts/CircularStd-Light.otf);
+      font-family: lowerThirdtextLeft;
+      src: url(Fonts/CircularStd-Black.otf);
     }
 
     @font-face {
-        font-family: lowerThirdTitle;
-        src: url(Fonts/CircularStd-BoldItalic.otf);
+      font-family: lowerThirdtextRight;
+      src: url(Fonts/CircularStd-Light.otf);
     }
 
-   
-    .Container { 
-        position: relative; 
-    } 
-
-    .position { 
-        position: absolute; 
-        top: 570px;
-        right: 1650px; 
-        width: 150px;
-        height: auto;
-        opacity: 0;
-        transition: all 1.5s;
+    @font-face {
+      font-family: lowerThirdTitle;
+      src: url(Fonts/CircularStd-BoldItalic.otf);
     }
 
-    .player{
+    .Container {
+      position: relative;
+    }
+
+    .position {
+      position: absolute;
+      top: 570px;
+      right: 1650px;
+      width: 150px;
+      height: auto;
+      opacity: 0;
+      transition: all 1.5s;
+    }
+
+    .player {
       position: absolute;
       top: 0;
       right: 0;
@@ -46,152 +45,194 @@
       transition: opacity 1s;
     }
 
-    .PlayerContainer{
-        position: relative;
-        float:left;
+    .PlayerContainer {
+      position: relative;
+      float: left;
     }
 
-    .lowerThirdContainer{
-        position: absolute;
-        top:850px;
-        left:-1000px;
-        opacity: 0;
-        transition: all 1s;
-        
+    .lowerThirdContainer {
+      position: absolute;
+      top: 850px;
+      left: -1000px;
+      opacity: 0;
+      transition: all 1s;
     }
 
-    .lowerThirdTitle{
-        font-size: 30px;
-        font-family: lowerThirdTextLeft;
-        color: black;
-        background-color: #cdf564;
-        max-width: fit-content;
-        max-height: 100px;
+    .lowerThirdTitle {
+      font-size: 30px;
+      font-family: lowerThirdTextLeft;
+      color: black;
+      background-color: #cdf564;
+      max-width: fit-content;
+      max-height: 100px;
 
-        padding-left: 10px;
-        padding-right: 100px;
-        padding-bottom: 10px;
-        padding-top: 10px;
-
-        
-
+      padding-left: 10px;
+      padding-right: 100px;
+      padding-bottom: 10px;
+      padding-top: 10px;
     }
 
-    .lowerThirdTextContainerOuter{
-        font-family: lowerThirdText;
-        background-color: black;
-        width:600px;
-        border-width: 5px;
-        border-style: solid;
-        border-left: 0px;
-        border-right: 0px;
-        border-top: 0px;
-        border-color: #cdf564;
-        
-        
-        padding-left: 30px;
-        padding-right: 10px;
-        padding-bottom: 30px;
-        padding-top: 30px;
-       
+    .lowerThirdTextContainerOuter {
+      font-family: lowerThirdText;
+      background-color: black;
+      width: 600px;
+      border-width: 5px;
+      border-style: solid;
+      border-left: 0px;
+      border-right: 0px;
+      border-top: 0px;
+      border-color: #cdf564;
 
+      padding-left: 30px;
+      padding-right: 10px;
+      padding-bottom: 30px;
+      padding-top: 30px;
     }
 
-    .lowerThirdTextContainerInner{
-        border-style: solid;
-        border-color: #cdf564;
-        border-bottom: 0px;
-        border-right: 0px;
-        border-top: 0px;
-        padding-left: 10px;
+    .lowerThirdTextContainerInner {
+      border-style: solid;
+      border-color: #cdf564;
+      border-bottom: 0px;
+      border-right: 0px;
+      border-top: 0px;
+      padding-left: 10px;
 
-        border-width: 2px;
+      border-width: 2px;
     }
 
-    .lowerThirdTextLeft{
-        font-size: 20px;
-        color:white;
-        float: left;
-        width: 200px;
-        max-width: 200px;
-        font-family: lowerThirdTextLeft;
+    .lowerThirdTextLeft {
+      font-size: 20px;
+      color: white;
+      float: left;
+      width: 200px;
+      max-width: 200px;
+      font-family: lowerThirdTextLeft;
     }
-    .lowerThirdTextRight{
-        font-size: 20px;
-        color:#cdf564;
-        font-family: lowerThirdTextRight;
-
+    .lowerThirdTextRight {
+      font-size: 20px;
+      color: #cdf564;
+      font-family: lowerThirdTextRight;
     }
-    .spotify_logo{
-        position: absolute;
-        top:10px;
-        left:40px;
-        width:200px;
-        height: auto;
+    .spotify_logo {
+      position: absolute;
+      top: 10px;
+      left: 40px;
+      width: 200px;
+      height: auto;
     }
-</style>
-<body>
-<div class="Container">
-    <img src="FS/Board_2.png" alt="Board">
-    <img src="FS/spotify_logo.png" alt="Logo" class="spotify_logo">
-    <img src="Players/player-B.png" alt="player a" class="player" id="p_1">
-    <img src="Players/player-B.png" alt="player a" class="player" id="p_2">
-    <img src="Players/player-B.png" alt="player a" class="player" id="p_3">
-    <img src="Players/player-B.png" alt="player a" class="player" id="p_4">
-    <img src="Players/player-B.png" alt="player a" class="player" id="p_5">
-    <img src="Players/player-B.png" alt="player a" class="player" id="p_6">
-    <img src="Players/player-B.png" alt="player a" class="player" id="p_7">
-    <img src="Players/player-B.png" alt="player a" class="player" id="p_8">
-    <img src="Players/player-B.png" alt="player a" class="player" id="p_9">
-    <img src="Players/player-B.png" alt="player a" class="player" id="p_10">
+  </style>
+  <body>
+    <div class="Container">
+      <img src="FS/Board_2.png" alt="Board" />
+      <img src="FS/spotify_logo.png" alt="Logo" class="spotify_logo" />
+      <img src="Players/player-B.png" alt="player a" class="player" id="p_1" />
+      <img src="Players/player-B.png" alt="player a" class="player" id="p_2" />
+      <img src="Players/player-B.png" alt="player a" class="player" id="p_3" />
+      <img src="Players/player-B.png" alt="player a" class="player" id="p_4" />
+      <img src="Players/player-B.png" alt="player a" class="player" id="p_5" />
+      <img src="Players/player-B.png" alt="player a" class="player" id="p_6" />
+      <img src="Players/player-B.png" alt="player a" class="player" id="p_7" />
+      <img src="Players/player-B.png" alt="player a" class="player" id="p_8" />
+      <img src="Players/player-B.png" alt="player a" class="player" id="p_9" />
+      <img src="Players/player-B.png" alt="player a" class="player" id="p_10" />
 
+      <img
+        src="Players/player-B.png"
+        alt="player a"
+        class="position"
+        id="pos_1"
+      />
+      <img
+        src="Players/player-B.png"
+        alt="player a"
+        class="position"
+        id="pos_2"
+      />
+      <img
+        src="Players/player-B.png"
+        alt="player a"
+        class="position"
+        id="pos_3"
+      />
+      <img
+        src="Players/player-B.png"
+        alt="player a"
+        class="position"
+        id="pos_4"
+      />
+      <img
+        src="Players/player-B.png"
+        alt="player a"
+        class="position"
+        id="pos_5"
+      />
 
-    <img src="Players/player-B.png" alt="player a" class="position" id="pos_1">
-    <img src="Players/player-B.png" alt="player a" class="position" id="pos_2">
-    <img src="Players/player-B.png" alt="player a" class="position" id="pos_3">
-    <img src="Players/player-B.png" alt="player a" class="position" id="pos_4">
-    <img src="Players/player-B.png" alt="player a" class="position" id="pos_5">
+      <img
+        src="Players/player-A.png"
+        alt="player a"
+        class="position"
+        id="pos_6"
+      />
+      <img
+        src="Players/player-A.png"
+        alt="player a"
+        class="position"
+        id="pos_7"
+      />
+      <img
+        src="Players/player-A.png"
+        alt="player a"
+        class="position"
+        id="pos_8"
+      />
+      <img
+        src="Players/player-A.png"
+        alt="player a"
+        class="position"
+        id="pos_9"
+      />
+      <img
+        src="Players/player-A.png"
+        alt="player a"
+        class="position"
+        id="pos_10"
+      />
 
-    <img src="Players/player-A.png" alt="player a" class="position" id="pos_6">
-    <img src="Players/player-A.png" alt="player a" class="position" id="pos_7">
-    <img src="Players/player-A.png" alt="player a" class="position" id="pos_8">
-    <img src="Players/player-A.png" alt="player a" class="position" id="pos_9">
-    <img src="Players/player-A.png" alt="player a" class="position" id="pos_10">
-
-    <div class="lowerThirdContainer" id="lowerThirdContainer">
-        <div class="lowerThirdTitle" id="lowerThirdTitle"> 
-            PLAYER NAME 1
-        </div>
-        <div class="lowerThirdTextContainerOuter" id="lowerThirdTextContainerOuter">
-            <div class="lowerThirdTextContainerInner" id="lowerThirdTextContainerInner">
-                <div class="lowerThirdTextLeft" id="lowerThirdTextLeft1">
-                    FAVORITE SONG: 
-                </div>
-                <div class="lowerThirdTextRight" id="lowerThirdTextRight1">
-                    KENDRICK LAMAR - HUMBLE.
-                </div>
-                <div class="lowerThirdTextLeft" id="lowerThirdTextLeft2">
-                    FAVORITE ARTIST: 
-                </div>
-                <div class="lowerThirdTextRight" id="lowerThirdTextRight2">
-                    PERIPHERY
-                </div>
+      <div class="lowerThirdContainer" id="lowerThirdContainer">
+        <div class="lowerThirdTitle" id="lowerThirdTitle">PLAYER NAME 1</div>
+        <div
+          class="lowerThirdTextContainerOuter"
+          id="lowerThirdTextContainerOuter"
+        >
+          <div
+            class="lowerThirdTextContainerInner"
+            id="lowerThirdTextContainerInner"
+          >
+            <div class="lowerThirdTextLeft" id="lowerThirdTextLeft1">
+              FAVORITE SONG:
             </div>
+            <div class="lowerThirdTextRight" id="lowerThirdTextRight1">
+              KENDRICK LAMAR - HUMBLE.
+            </div>
+            <div class="lowerThirdTextLeft" id="lowerThirdTextLeft2">
+              FAVORITE ARTIST:
+            </div>
+            <div class="lowerThirdTextRight" id="lowerThirdTextRight2">
+              PERIPHERY
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
 
-<script type="module">
-    import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
-    const socket = io();
+    <script type="module">
+      import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
+      const socket = io();
 
-    
-
-    socket.on('send_data', (data) =>{
+      socket.on("send_data", (data) => {
         updateBoard(data.positions, data.players);
-    });
-    var timeOutId;
-    socket.on('showLowerThird', (player, turnplayer, data) =>{
+      });
+      socket.on("showLowerThird", (player, turnplayer, data) => {
         let lowerThirdData = data.players[player].lowerThirdFacts;
         let lowerThird = document.getElementById("lowerThirdContainer");
         let title = document.getElementById("lowerThirdTitle");
@@ -201,67 +242,61 @@
 
         //update text
         title.innerHTML = data.players[player].name.toUpperCase();
-        document.getElementById("lowerThirdTextLeft1").innerHTML = lowerThirdData["fact1"]["left"].toUpperCase();
-        document.getElementById("lowerThirdTextLeft2").innerHTML = lowerThirdData["fact2"]["left"].toUpperCase();
-        right1.innerHTML = lowerThirdData["fact1"]["right"].toUpperCase();
-        right2.innerHTML = lowerThirdData["fact2"]["right"].toUpperCase();
+        right1.innerHTML = lowerThirdData["favorite_song"].toUpperCase();
+        right2.innerHTML = lowerThirdData["favorite_artist"].toUpperCase();
 
         //update color
         title.style.backgroundColor = data.colors[turnplayer_opposite];
         right1.style.color = data.colors[turnplayer_opposite];
         right2.style.color = data.colors[turnplayer_opposite];
-        document.getElementById("lowerThirdTextContainerInner").style.borderColor = data.colors[turnplayer_opposite];
-        document.getElementById("lowerThirdTextContainerOuter").style.borderColor = data.colors[turnplayer_opposite];
+        document.getElementById(
+          "lowerThirdTextContainerInner"
+        ).style.borderColor = data.colors[turnplayer_opposite];
+        document.getElementById(
+          "lowerThirdTextContainerOuter"
+        ).style.borderColor = data.colors[turnplayer_opposite];
 
         //update position
         lowerThird.style.top = "850px";
         lowerThird.style.left = "20px";
         lowerThird.style.opacity = 1;
-    });
+      });
 
-    socket.on('hideLowerThird', () =>{
+      socket.on("hideLowerThird", () => {
         let lowerThird = document.getElementById("lowerThirdContainer");
         lowerThird.style.left = "-1000px";
         lowerThird.style.opacity = 0;
-    });
+      });
 
-
-    function updateBoard(positions, players) {
-        document.querySelectorAll('.position').forEach((pos, index) => {
-            updatePosition(pos, positions[index]);
+      function updateBoard(positions, players) {
+        document.querySelectorAll(".position").forEach((pos, index) => {
+          updatePosition(pos, positions[index]);
         });
 
-        document.querySelectorAll('.player').forEach((player, index) => {
-            setPosition(player, 1400-index*120, 15);
-            updatePlayer(player, players[index]);
+        document.querySelectorAll(".player").forEach((player, index) => {
+          setPosition(player, 1400 - index * 120, 15);
+          updatePlayer(player, players[index]);
         });
+      }
 
-        
-    };
-
-    function updatePosition(position, newPosition){
-        setPosition(position, newPosition.right, newPosition. top);
-        position.style.width =`${newPosition.width}px`;
+      function updatePosition(position, newPosition) {
+        setPosition(position, newPosition.right, newPosition.top);
+        position.style.width = `${newPosition.width}px`;
         position.style.opacity = newPosition.picked ? 1 : 0;
         if (newPosition.position < 5)
-        position.src = newPosition.player.image_path['blue'];
-        else
-        position.src = newPosition.player.image_path['yellow'];
-    }
+          position.src = newPosition.player.image_path["blue"];
+        else position.src = newPosition.player.image_path["yellow"];
+      }
 
-    function updatePlayer(player, newPlayer){
-        
-        player.src = newPlayer.image_path['black'];
+      function updatePlayer(player, newPlayer) {
+        player.src = newPlayer.image_path["black"];
         player.style.opacity = newPlayer.picked ? 0.3 : 1;
-    }
+      }
 
-    function setPosition(obj, x, y){
+      function setPosition(obj, x, y) {
         obj.style.right = `${x}px`;
         obj.style.top = `${y}px`;
-    }
-
-    
-</script>
-
-</body>
+      }
+    </script>
+  </body>
 </html>
