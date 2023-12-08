@@ -11,7 +11,8 @@
       "favorite_artist": ""
     }
   },
-  "Zweback": {
+
+  "Erobb": {
     "images": {
       "black": "Players/player-C.png",
       "blue": "Players/player-A.png",
@@ -19,10 +20,11 @@
     },
 
     "facts": {
-      "favorite_song": "Danza Kuduro by Don Omar",
-      "favorite_artist": "Dua Lipa"
+      "favorite_song": "First Day Out by Tee Grizzly",
+      "favorite_artist": "Taylor Swift"
     }
   },
+  
   "BFordlancer": {
     "images": {
       "black": "Players/player-C.png",
@@ -107,7 +109,8 @@
       "favorite_artist": "Z. Smith"
     }
   },
-  "Erobb": {
+ 
+  "Zweback": {
     "images": {
       "black": "Players/player-C.png",
       "blue": "Players/player-A.png",
@@ -115,8 +118,8 @@
     },
 
     "facts": {
-      "favorite_song": "First Day Out by Tee Grizzly",
-      "favorite_artist": "Taylor Swift"
+      "favorite_song": "Danza Kuduro by Don Omar",
+      "favorite_artist": "Dua Lipa"
     }
   }
 }

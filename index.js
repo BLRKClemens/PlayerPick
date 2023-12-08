@@ -95,6 +95,7 @@ class Player {
     this.pickedBy = "";
     this.position = null;
     this.lowerThirdFacts = lowerThirdFacts;
+    this.alt = name;
   }
 }
 
@@ -165,9 +166,6 @@ function initialize() {
 
     picked_positions: [],
 
-    A_open: true,
-    B_open: true,
-
     turnplayer: "",
     captains: { A: "Esfand", B: "Zweback" },
     colors: {A: "#2d46b9", B: "#cdf564"},
@@ -181,10 +179,19 @@ function initialize() {
 function initializePlayers() {
   let players = [];
   Object.entries(playerData).forEach((player)=>{
-    players.push(new Player(player[0], player[1]['images'], player[1]['facts']));
+    players.push(new Player(player[0], getImagePaths(player[0]), player[1]['facts']));
   });
 
   return players;
+}
+
+function getImagePaths(player_name) {
+  let image_paths = {
+    black: `Players/black/${player_name}.png`,
+    blue: `Players/blue/${player_name}.png`,
+    yellow: `Players/yellow/${player_name}.png`,
+  };
+  return image_paths;
 }
 
 function sendData() {

@@ -25,7 +25,7 @@
       }
       .dropDownMenu {
         position: absolute;
-        top: 70%;
+        top: 90%;
         left: 50%;
         transform: translate(-50%, -50%);
         -ms-transform: translate(-50%, -50%);
@@ -57,7 +57,6 @@
         visibility: hidden;
       }
     </style>
-  </head>
 
   <script type="module"></script>
 
@@ -138,14 +137,7 @@
           id="p_9"
         />
       </div>
-      <div id="Spieler 10">
-        <img
-          src="Players/player-A.png"
-          alt="player a"
-          class="player"
-          id="p_10"
-        />
-      </div>
+
     </div>
     <div style="clear: both"></div>
     <div id="turnTextField" class="text"></div>
@@ -162,6 +154,12 @@
 
       function initializeControls() {
         document.querySelectorAll(".wrapper > div").forEach((div, index) => {
+          //swap index
+          if (index == 0)
+            index = 9;
+          else
+          if (index == 9)
+            index = 0;
           const player_id = div.querySelector(".player").id;
           var select = document.createElement("select");
           select.id = `select_${player_id}`;
@@ -217,10 +215,28 @@
         updateText(data);
         updateResetButton(data);
         document.querySelectorAll(".player").forEach((player, index) => {
-          updatePlayer(player, data, index);
+
+          //swap index
+          if (index == 0)
+            index = 9;
+          else
+          if (index == 9)
+            index = 0;
+
+            updatePlayer(player, data, index);
           //updateDropDownList(data);
         });
       });
+
+      function swapIndex(index) {
+        if (index == 0)
+            index = 9;
+        else
+        if (index == 9)
+            index = 0;
+
+        index;
+      }
 
       function updatePlayer(player, data, index, picked_positions) {
         const newPlayer = data.players[index];
