@@ -241,7 +241,6 @@
         let title = document.getElementById("lowerThirdTitle");
         let right1 = document.getElementById("lowerThirdTextRight1");
         let right2 = document.getElementById("lowerThirdTextRight2");
-        let turnplayer_opposite = data.turnplayer == "A" ? "B" : "A";
 
         //update text
         title.innerHTML = data.players[player].name.toUpperCase();
@@ -249,15 +248,15 @@
         right2.innerHTML = lowerThirdData["favorite_artist"].toUpperCase();
 
         //update color
-        title.style.backgroundColor = data.colors[turnplayer_opposite];
-        right1.style.color = data.colors[turnplayer_opposite];
-        right2.style.color = data.colors[turnplayer_opposite];
+        title.style.backgroundColor = data.colors[turnplayer];
+        right1.style.color = data.colors[turnplayer];
+        right2.style.color = data.colors[turnplayer];
         document.getElementById(
           "lowerThirdTextContainerInner"
-        ).style.borderColor = data.colors[turnplayer_opposite];
+        ).style.borderColor = data.colors[turnplayer];
         document.getElementById(
           "lowerThirdTextContainerOuter"
-        ).style.borderColor = data.colors[turnplayer_opposite];
+        ).style.borderColor = data.colors[turnplayer];
 
         //update position
         lowerThird.style.top = "850px";

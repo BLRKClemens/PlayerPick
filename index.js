@@ -8,7 +8,7 @@ const io = new Server(server);
 
 app.use(express.static("frontends"));
 //fetch("frontends/Data/lowerThirdFacts.json").then((response) => response.json()).then((json) => console.log(json));
-import playerData from "./frontends/Data/PlayerData.json" assert {type: "json"};
+import playerData from "./frontends/Data/PlayerData.json" assert { type: "json" };
 var timeOutId = null;
 
 function getTime() {
@@ -19,13 +19,11 @@ function getTime() {
   return `${hs}:${mins}:${secs}`;
 
   function fillup(time) {
-    return time.toString().length > 1 ? time : `0${time}`
+    return time.toString().length > 1 ? time : `0${time}`;
   }
 }
 
-
 io.on("connection", (socket) => {
-  
   const IP_ADRESS = socket.request.socket.remoteAddress;
   console.log(`Client connected with Address: ${IP_ADRESS} at ${getTime()}`);
 
@@ -36,30 +34,26 @@ io.on("connection", (socket) => {
   });
 
   socket.on("pick_player", (player, position, streamer_id) => {
-    if (data.picked_positions.length == 0){
+    if (data.picked_positions.length == 0) {
       data.pick_order = initializePickOrder(streamer_id);
     }
     console.log(data.pick_order);
     if (streamer_id == data.pick_order[data.picked_positions.length]) {
       pickPlayer(position, player, streamer_id);
     }
-
   });
 
-  function initializePickOrder(streamer_id){
-
+  function initializePickOrder(streamer_id) {
     let pick_order = ["A", "B", "B", "A", "A", "B", "B", "A", "A", "B"];
     //let pick_order = ["A", "B","A", "B","A", "B","A", "B","A", "B"];
 
-
-    if (streamer_id == "B")
-      pick_order = reversePickingOrder(pick_order);
+    if (streamer_id == "B") pick_order = reversePickingOrder(pick_order);
 
     return pick_order;
 
-    function reversePickingOrder(pick_order){
-      let reversePickingOrder = []
-      for (var element of pick_order){
+    function reversePickingOrder(pick_order) {
+      let reversePickingOrder = [];
+      for (var element of pick_order) {
         reversePickingOrder.push(element == "A" ? "B" : "A");
       }
       return reversePickingOrder;
@@ -71,42 +65,37 @@ io.on("connection", (socket) => {
     const player = data.players[pla];
 
     if (player.picked == false && position.picked == false) {
-        position.setPosition(position.org_right, position.org_top);
-        position.player = player;
-        player.position = position.position;
-        position.picked = true;
-        position.player.picked = true;
-        position.player.pickedBy = streamer_id;
+      position.setPosition(position.org_right, position.org_top);
+      position.player = player;
+      player.position = position.position;
+      position.picked = true;
+      position.player.picked = true;
+      position.player.pickedBy = streamer_id;
 
-        data.picked_positions.push(position.position);
+      data.picked_positions.push(position.position);
 
-        data.turnplayer = streamer_id == "A" ? "B" : "A";
-        showLowerThird(pla, data.turnplayer);
-        timeOutId = setTimeout(hideLowerThird, 7000);
-        sendData();
+      showLowerThird(pla, streamer_id);
+      timeOutId = setTimeout(hideLowerThird, 7000);
+      sendData();
     }
   }
 
   socket.on("undo", (index, streamer_id) => {
-    if (streamer_id == data.pick_order[data.picked_positions.length-1]) {
-        var player = data.players[index];
-        var position = data.positions[player.position];
-        player.picked = false;
-        position.picked = false;
-        player.position = null;
-        data.turnplayer = data.turnplayer == "A" ? "B" : "A";
-        position.moveToRandomLocation();
-        //remove position from picked positions
-        data.picked_positions = data.picked_positions.filter(
-          (pos) => pos != position.position
-        );
+    if (streamer_id == data.pick_order[data.picked_positions.length - 1]) {
+      var player = data.players[index];
+      var position = data.positions[player.position];
+      player.picked = false;
+      position.picked = false;
+      player.position = null;
+      position.moveToRandomLocation();
+      //remove position from picked positions
+      data.picked_positions = data.picked_positions.filter(
+        (pos) => pos != position.position
+      );
 
-        
-        hideLowerThird();
-        sendData();
+      hideLowerThird();
+      sendData();
     }
-
-
   });
 
   socket.on("reset", () => {
@@ -138,8 +127,8 @@ class Position {
     this.alt = position_index;
     this.player = new Player("default", {
       black: "Players/player-C.png",
-        blue: "Players/player-A.png",
-        yellow: "Players/player-B.png",
+      blue: "Players/player-A.png",
+      yellow: "Players/player-B.png",
     });
     this.picked = false;
   }
@@ -194,9 +183,8 @@ function initialize() {
 
     picked_positions: [],
 
-    turnplayer: "",
     captains: { A: "Esfand", B: "Zweback" },
-    colors: {A: "#2d46b9", B: "#cdf564"},
+    colors: { A: "#2d46b9", B: "#cdf564" },
     pick_order: [],
   };
 
@@ -207,8 +195,10 @@ function initialize() {
 
 function initializePlayers() {
   let players = [];
-  Object.entries(playerData).forEach((player)=>{
-    players.push(new Player(player[0], getImagePaths(player[0]), player[1]['facts']));
+  Object.entries(playerData).forEach((player) => {
+    players.push(
+      new Player(player[0], getImagePaths(player[0]), player[1]["facts"])
+    );
   });
 
   return players;
