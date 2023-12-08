@@ -36,10 +36,38 @@ io.on("connection", (socket) => {
   });
 
   socket.on("pick_player", (player, position, streamer_id) => {
-    if (streamer_id == data.turnplayer || data.picked_positions.length == 0) {
+    if (data.picked_positions.length == 0){
+      data.pick_order = initializePickOrder(streamer_id);
+    }
+    console.log(data.pick_order);
+    if (streamer_id == data.pick_order[data.picked_positions.length]) {
       pickPlayer(position, player, streamer_id);
     }
+
+    console.log(data.picked_positions);
   });
+
+  function initializePickOrder(streamer_id){
+
+    let pick_order = ["A", "B", "B", "A", "A", "B", "B", "A", "A", "B"];
+
+    if (streamer_id == "B")
+      pick_order = reversePickingOrder(pick_order);
+
+    return pick_order;
+
+    function reversePickingOrder(pick_order){
+      let reversePickingOrder = []
+      for (var element of pick_order){
+        reversePickingOrder.push(element == "A" ? "B" : "A");
+        
+
+      }
+
+      return reversePickingOrder;
+    }
+  }
+
   function pickPlayer(pos, pla, streamer_id) {
     const position = data.positions[pos];
     const player = data.players[pla];
@@ -62,7 +90,7 @@ io.on("connection", (socket) => {
   }
 
   socket.on("undo", (index, streamer_id) => {
-    if (streamer_id != data.turnplayer) {
+    if (streamer_id == data.pick_order[data.picked_positions.length-1]) {
         var player = data.players[index];
         var position = data.positions[player.position];
         player.picked = false;
@@ -79,6 +107,9 @@ io.on("connection", (socket) => {
         hideLowerThird();
         sendData();
     }
+
+    console.log(data.picked_positions);
+
   });
 
   socket.on("reset", () => {
@@ -169,6 +200,7 @@ function initialize() {
     turnplayer: "",
     captains: { A: "Esfand", B: "Zweback" },
     colors: {A: "#2d46b9", B: "#cdf564"},
+    pick_order: [],
   };
 
   data.positions.forEach((pos) => {
