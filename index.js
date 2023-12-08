@@ -44,12 +44,13 @@ io.on("connection", (socket) => {
       pickPlayer(position, player, streamer_id);
     }
 
-    console.log(data.picked_positions);
   });
 
   function initializePickOrder(streamer_id){
 
     let pick_order = ["A", "B", "B", "A", "A", "B", "B", "A", "A", "B"];
+    //let pick_order = ["A", "B","A", "B","A", "B","A", "B","A", "B"];
+
 
     if (streamer_id == "B")
       pick_order = reversePickingOrder(pick_order);
@@ -60,10 +61,7 @@ io.on("connection", (socket) => {
       let reversePickingOrder = []
       for (var element of pick_order){
         reversePickingOrder.push(element == "A" ? "B" : "A");
-        
-
       }
-
       return reversePickingOrder;
     }
   }
@@ -108,7 +106,6 @@ io.on("connection", (socket) => {
         sendData();
     }
 
-    console.log(data.picked_positions);
 
   });
 

@@ -287,20 +287,18 @@
       }
 
       function updateText(data) {
+        let turnplayer = data.pick_order[data.picked_positions.length];
         let text = document.querySelector(".text");
 
-        if (allPositionsPicked(data) || noPositionPicked(data)) {
+        if (allPositionsPicked(data) || noPositionPicked(data)){
           text.innerHTML = "";
         }
         else
-        if (data.turnplayer == streamer_id)
-          text.innerHTML = `Teamcaptain ${
-            data.captains[data.turnplayer]
-          }, you can pick!`;
+        if (turnplayer == streamer_id)
+          text.innerHTML = `Teamcaptain ${data.captains[turnplayer]}, you can pick!`;
         else
-          text.innerHTML = `Please wait, Teamcaptain ${
-            data.captains[data.turnplayer]
-          } is picking!`;
+        text.innerHTML = `Please wait, Teamcaptain ${data.captains[turnplayer]} is picking!`;
+
       }
 
       function updateResetButton(data) {
